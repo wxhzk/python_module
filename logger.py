@@ -34,7 +34,7 @@ class TimedRotatingFileHandler(BaseRotatingHandler):
         if self.stream:
             self.stream.close()
             self.stream = None
-        dfn = "{0}.{1}".format(self.baseFilename, self.curCount)
+        dfn = "{0}.{1}-{2}".format(self.baseFilename, self.created, self.curCount)
         if os.path.exists(self.baseFilename):
             if os.path.exists(dfn):
                 os.remove(dfn)
@@ -60,7 +60,7 @@ class Logger(_logging.Logger):
         while hasattr(f, "f_code"):
             co = f.f_code
             filename = os.path.normcase(co.co_filename)
-            if os.path.basename(__file__) in filename or filename == _logging._srcfile :
+            if os.path.normcase(__file__) == filename or filename == _logging._srcfile :
                 f = f.f_back
                 continue
             rv = (co.co_filename, f.f_lineno, co.co_name)
