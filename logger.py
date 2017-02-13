@@ -60,7 +60,7 @@ class Logger(_logging.Logger):
         while hasattr(f, "f_code"):
             co = f.f_code
             filename = os.path.normcase(co.co_filename)
-            if __file__ in filename or filename == _logging._srcfile :
+            if os.path.basename(__file__) in filename or filename == _logging._srcfile :
                 f = f.f_back
                 continue
             rv = (co.co_filename, f.f_lineno, co.co_name)
